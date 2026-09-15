@@ -1,0 +1,10 @@
+PySide6>=6.8,<7
+mss>=10,<11
+pillow>=11,<13
+numpy>=2,<3
+faster-whisper>=1.2,<2
+PyAudioWPatch>=0.2.12,<0.3; sys_platform == "win32"
+webrtcvad-wheels>=2.0.14,<3
+pycaw>=20251023; sys_platform == "win32"
+pypdf>=5,<7
+PyMuPDF>=1.27,<2

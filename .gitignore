@@ -1,0 +1,13 @@
+__pycache__/
+.pytest_cache/
+*.pyc
+.runtime/
+*.log*
+*.pid
+STOP
+config.json
+profiles/
+interviews/
+output/
+.env*
+.venv/

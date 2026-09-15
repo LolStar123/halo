@@ -1,0 +1,25 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "style": {"type": "string", "enum": ["terse", "interview"]},
+    "ask": {"type": "array", "items": {"type": "string"}},
+    "answers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "n": {"type": "integer"},
+          "question": {"type": "string"},
+          "answer": {"type": "string"},
+          "explanation": {"type": "string"},
+          "confidence": {"type": "string", "enum": ["high", "medium", "low"]},
+          "alternatives": {"type": "array", "items": {"type": "string"}}
+        },
+        "required": ["n", "question", "answer", "explanation", "confidence", "alternatives"]
+      }
+    }
+  },
+  "required": ["style", "ask", "answers"]
+}
