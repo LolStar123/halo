@@ -1,0 +1,65 @@
+{
+  "scope": "Authored fictional meeting packs. The pilot pack expands the repository's existing synthetic preview. No real meeting notes are included.",
+  "packs": [
+    {
+      "id": "pilot",
+      "title": "pilot readiness review",
+      "question": "What is blocking the pilot launch?",
+      "docs": [
+        {
+          "title": "Readiness notes",
+          "text": "# Launch readiness\n\nThe accessibility review is open. Keyboard focus is lost when the invitation dialog closes. This blocks the pilot launch until the fix is verified.\n\n# Rollback\n\nA rollback owner has not been assigned. The rollback checklist requires restoring the previous invitation flow and checking that existing accounts still sign in.\n\n# Decision date\n\nThe team will review readiness on Thursday. No launch date has been agreed. The proposed pilot is limited to an invited group of 25 participants.\n\n# Support\n\nSupport will record invitation failures and login failures separately. Each report needs the browser version and the step where the problem occurred."
+        },
+        {
+          "title": "Pilot acceptance checklist",
+          "text": "# Accessibility gate\n\nBefore launch, verify keyboard navigation, visible focus and screen-reader labels in the invitation flow. The review is still open.\n\n# Success measures\n\nMeasure invitation acceptance and successful first sign-in. A successful sign-in must reach the workspace, not just return a successful authentication response.\n\n# Stop conditions\n\nPause invitations if an existing account loses access or the rollback process fails. Do not widen the pilot until the issue is understood.\n\n# Follow-up\n\nThe product manager will bring the open checklist to the Thursday readiness review. An owner must be recorded for every unresolved gate."
+        }
+      ]
+    },
+    {
+      "id": "incident",
+      "title": "service incident review",
+      "question": "What caused the queue backlog and what should we fix?",
+      "docs": [
+        {
+          "title": "Incident timeline",
+          "text": "# Initial alert\n\nAt 09:12 the processing queue began growing after a worker release. Request acceptance continued, but completed jobs fell below incoming jobs.\n\n# Diagnosis\n\nThe release reduced the database connection timeout. Failed database calls retried immediately, increasing load and causing a retry storm.\n\n# Mitigation\n\nAt 09:31 the team restored the previous timeout and reduced concurrent workers. The queue began draining at 09:38. No accepted jobs were deliberately discarded.\n\n# Evidence gap\n\nThe timeline does not establish whether every customer job completed. Reconcile accepted job IDs against completion records before declaring full recovery."
+        },
+        {
+          "title": "Remediation notes",
+          "text": "# Retry policy\n\nAdd bounded exponential backoff with jitter to database retries. Cap the number of attempts and send exhausted jobs to a visible failure queue.\n\n# Release checks\n\nLoad-test the timeout change with slow database responses. Compare completion rate, retry volume and database saturation before rollout.\n\n# Monitoring\n\nAlert on queue age as well as queue length. A small number of very old jobs can be hidden by a low total queue count.\n\n# Ownership\n\nThe platform developer owns the retry change. The verifier must reproduce the slow-database case and check that retries remain bounded."
+        }
+      ]
+    },
+    {
+      "id": "research",
+      "title": "market research review",
+      "question": "How will we check whether the strategy survives outside training?",
+      "docs": [
+        {
+          "title": "Research plan",
+          "text": "# Hypothesis\n\nTest whether a simple trend rule remains useful after turnover costs. The benchmark is passive exposure on the same dates, with the same price source.\n\n# Walk-forward design\n\nChoose the lookback only within each training window. Freeze that choice for the next test window. Concatenate only the test returns for the reported out-of-sample curve.\n\n# Execution timing\n\nA signal computed at the close cannot earn that day's return. Lag positions so the trade occurs after the information becomes available.\n\n# Costs\n\nCharge transaction costs when positions change. Report sensitivity to higher fees rather than a single frictionless result."
+        },
+        {
+          "title": "Review questions",
+          "text": "# Data audit\n\nCheck missing dates, duplicate bars, corporate actions and timezone alignment before interpreting returns. Record the source and retrieval date.\n\n# Evaluation\n\nCompare drawdown, turnover and return dispersion alongside average returns. Inspect each test window so one unusual period cannot hide the rest.\n\n# Selection bias\n\nKeep the search log, including failed parameter choices. A strong result chosen from many experiments needs a separate untouched evaluation period.\n\n# Decision\n\nNo live allocation has been approved. The next deliverable is a reproducible notebook with assumptions, test windows and a failure-case review."
+        }
+      ]
+    },
+    {
+      "id": "handoff",
+      "title": "engineering handoff",
+      "question": "What must the verifier check before release?",
+      "docs": [
+        {
+          "title": "Release scope",
+          "text": "# Product change\n\nThe new import screen accepts CSV files and previews the first 20 rows before saving. Users map their column names to the required fields.\n\n# Validation\n\nReject duplicate record IDs and missing required columns. Keep the original file unchanged. Show row-specific errors so the user can correct the source.\n\n# Large files\n\nThe browser preview is limited to 5 MB. Larger files require the local importer. The page must explain the limit before a file is uploaded.\n\n# Persistence\n\nA failed import must not partially replace the existing dataset. Write to a temporary store and commit only after validation passes."
+        },
+        {
+          "title": "Verifier checklist",
+          "text": "# Functional checks\n\nThe verifier must test valid files, missing columns, duplicate IDs, empty input and a file above the size limit. Reopen a saved dataset and compare the row count.\n\n# Interaction checks\n\nCheck keyboard access to the file chooser and mapping controls. Error messages must be associated with the relevant field.\n\n# Recovery checks\n\nSimulate a failed save. The previous dataset should remain readable, and retrying a corrected file should succeed.\n\n# Release decision\n\nThe developer supplies the change and test receipts. The verifier records a pass or a specific blocking failure; a green build alone does not establish a working import flow."
+        }
+      ]
+    }
+  ]
+}

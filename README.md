@@ -1,11 +1,13 @@
 <!-- working-example:start -->
-## Try it in a minute
+## Use the meeting workspace in your browser
 
-**[Live example](https://lolstar123.github.io/halo/)** · [Example code](examples/portfolio/model.mjs) · [Run locally](examples/portfolio/README.md) · [Atul's website](https://atul-kanodia-fieldnotes.atulswaggalicious.chatgpt.site)
+**[Open HALO](https://lolstar123.github.io/halo/)** | [Browser source](examples/portfolio) | [Atul's site](https://atul-kanodia-fieldnotes.atulswaggalicious.chatgpt.site)
 
-Ask a question against a small note pack; inspect retrieved evidence and step through a prepared cue.
+Choose one of four fictional meeting packs, or paste/upload your own notes. Ask what you need to recall, inspect the matching source passages and read them one sentence at a time. Edit the cue, revisit recent questions and export a Markdown session record.
 
-<img src="examples/portfolio/preview.png" alt="halo example inputs and calculated output" width="760">
+![HALO browser meeting workspace](examples/portfolio/preview.png)
+
+The browser uses local text retrieval and direct excerpts, not a hosted AI model. Your files remain in the tab and are not uploaded or persisted. No API key is required. It reports when no evidence matches. The full Windows application below provides audio, screen context and model inference through your own authenticated backend.
 
 <!-- working-example:end -->
 
