@@ -1,2 +1,302 @@
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Libre+Caslon+Display&display=swap');
-:root{color-scheme:dark;--bg:#19212b;--surface:#222e3b;--line:#3c4b5c;--ink:#e3eaf1;--muted:#a9b9c9;--accent:#a7d1d4}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.65 Manrope,sans-serif}header{padding:22px 5%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line)}a{color:var(--accent);text-underline-offset:4px}.wordmark{font-size:30px;letter-spacing:-2px}.wordmark span{font-size:12px;letter-spacing:0;color:var(--muted);margin-left:14px}main{max-width:1320px;margin:auto;padding:34px 5%}.intro{display:flex;justify-content:space-between;align-items:center;gap:30px}.intro h1{font:56px/1 'Libre Caslon Display',Georgia,serif;margin:10px 0 30px}.intro>p{max-width:330px;color:var(--muted)}button,input,select,textarea{font:inherit;background:var(--surface);color:inherit;border:1px solid var(--line);padding:9px 12px}button{cursor:pointer}button:disabled{opacity:.4;cursor:default}:focus-visible{outline:2px solid var(--accent);outline-offset:3px}label{display:grid;gap:6px;font-size:12px;color:var(--muted)}input,select,textarea{min-width:0;max-width:100%;width:100%}textarea{resize:vertical}.workspace{display:grid;grid-template-columns:255px minmax(0,1fr);gap:40px}.small,footer{color:var(--muted);font-size:12px}aside{min-width:0}aside h2{font-size:13px;font-weight:500;margin-top:26px}#documents{display:grid;gap:8px;margin:20px 0}#documents button{text-align:left;font-size:12px}details{margin:18px 0}summary{cursor:pointer;font-size:13px}details label{margin:12px 0}#reset{font-size:12px;width:100%}#history{display:grid;gap:7px}#history button{text-align:left;font-size:12px;background:transparent}#note-status{font-size:12px;color:var(--accent)}.question-row{display:flex;gap:8px;margin-top:7px}.question-row button{white-space:nowrap}#status{color:var(--muted);font-size:12px;min-height:20px}.reader{background:#253544;border:1px solid #4c6577;padding:24px 30px}.reader-top{display:flex;justify-content:space-between;color:var(--accent);font-size:11px;letter-spacing:.06em}#sentence{font:32px/1.5 Manrope,sans-serif;min-height:185px;margin:22px 0 30px;overflow-wrap:anywhere}.reader-controls{display:flex;align-items:center;justify-content:space-between;gap:12px}.reader-controls button{font-size:12px;background:transparent}.reader-controls label{width:110px}input[type=range]{accent-color:var(--accent);padding:0}.evidence-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;border-top:1px solid var(--line);padding-top:16px}.evidence-heading h2{font-size:15px;font-weight:500}.evidence-heading button{font-size:12px}.passage{border-top:1px solid var(--line);padding:20px 0}.passage h3{font-size:13px;color:var(--accent);margin:0}.passage p{font-size:14px}.passage button{font-size:12px;margin-right:8px}.passage small{color:var(--muted)}footer{border-top:1px solid var(--line);padding-top:20px;margin-top:36px}dialog{background:var(--bg);color:var(--ink);border:1px solid var(--line);max-width:750px;width:90%;max-height:80vh}dialog::backdrop{background:#0008}dialog pre{white-space:pre-wrap;font:14px/1.65 Manrope,sans-serif}#close-source{float:right}@media(max-width:760px){.workspace{grid-template-columns:minmax(0,1fr);gap:24px}.intro{display:block}.intro h1{font-size:45px}.intro>p{max-width:none}.question-row{flex-direction:column}.reader{padding:20px}#sentence{font-size:27px;min-height:180px}.reader-controls{flex-wrap:wrap}.wordmark span{display:block;margin:0}header>a{font-size:12px}.evidence-heading{flex-wrap:wrap}}
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Libre+Caslon+Display&display=swap");
+:root {
+    color-scheme: dark;
+    --bg: #19212b;
+    --surface: #222e3b;
+    --line: #3c4b5c;
+    --ink: #e3eaf1;
+    --muted: #a9b9c9;
+    --accent: #a7d1d4;
+}
+* {
+    box-sizing: border-box;
+}
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font:
+        14px/1.65 Manrope,
+        sans-serif;
+}
+header {
+    padding: 22px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--line);
+}
+a {
+    color: var(--accent);
+    text-underline-offset: 4px;
+}
+.wordmark {
+    font-size: 30px;
+    letter-spacing: -2px;
+}
+.wordmark span {
+    font-size: 12px;
+    letter-spacing: 0;
+    color: var(--muted);
+    margin-left: 14px;
+}
+main {
+    max-width: 1320px;
+    margin: auto;
+    padding: 34px 5%;
+}
+.intro {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+}
+.intro h1 {
+    font:
+        56px/1 "Libre Caslon Display",
+        Georgia,
+        serif;
+    margin: 10px 0 30px;
+}
+.intro > p {
+    max-width: 330px;
+    color: var(--muted);
+}
+button,
+input,
+select,
+textarea {
+    font: inherit;
+    background: var(--surface);
+    color: inherit;
+    border: 1px solid var(--line);
+    padding: 9px 12px;
+}
+button {
+    cursor: pointer;
+}
+button:disabled {
+    opacity: 0.4;
+    cursor: default;
+}
+:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+}
+label {
+    display: grid;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--muted);
+}
+input,
+select,
+textarea {
+    min-width: 0;
+    max-width: 100%;
+    width: 100%;
+}
+textarea {
+    resize: vertical;
+}
+.workspace {
+    display: grid;
+    grid-template-columns: 255px minmax(0, 1fr);
+    gap: 40px;
+}
+.small,
+footer {
+    color: var(--muted);
+    font-size: 12px;
+}
+aside {
+    min-width: 0;
+}
+aside h2 {
+    font-size: 13px;
+    font-weight: 500;
+    margin-top: 26px;
+}
+#documents {
+    display: grid;
+    gap: 8px;
+    margin: 20px 0;
+}
+#documents button {
+    text-align: left;
+    font-size: 12px;
+}
+details {
+    margin: 18px 0;
+}
+summary {
+    cursor: pointer;
+    font-size: 13px;
+}
+details label {
+    margin: 12px 0;
+}
+#reset {
+    font-size: 12px;
+    width: 100%;
+}
+#history {
+    display: grid;
+    gap: 7px;
+}
+#history button {
+    text-align: left;
+    font-size: 12px;
+    background: transparent;
+}
+#note-status {
+    font-size: 12px;
+    color: var(--accent);
+}
+.question-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 7px;
+}
+.question-row button {
+    white-space: nowrap;
+}
+#status {
+    color: var(--muted);
+    font-size: 12px;
+    min-height: 20px;
+}
+.reader {
+    background: #253544;
+    border: 1px solid #4c6577;
+    padding: 24px 30px;
+}
+.reader-top {
+    display: flex;
+    justify-content: space-between;
+    color: var(--accent);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+}
+#sentence {
+    font:
+        32px/1.5 Manrope,
+        sans-serif;
+    min-height: 185px;
+    margin: 22px 0 30px;
+    overflow-wrap: anywhere;
+}
+.reader-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+.reader-controls button {
+    font-size: 12px;
+    background: transparent;
+}
+.reader-controls label {
+    width: 110px;
+}
+input[type="range"] {
+    accent-color: var(--accent);
+    padding: 0;
+}
+.evidence-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    border-top: 1px solid var(--line);
+    padding-top: 16px;
+}
+.evidence-heading h2 {
+    font-size: 15px;
+    font-weight: 500;
+}
+.evidence-heading button {
+    font-size: 12px;
+}
+.passage {
+    border-top: 1px solid var(--line);
+    padding: 20px 0;
+}
+.passage h3 {
+    font-size: 13px;
+    color: var(--accent);
+    margin: 0;
+}
+.passage p {
+    font-size: 14px;
+}
+.passage button {
+    font-size: 12px;
+    margin-right: 8px;
+}
+.passage small {
+    color: var(--muted);
+}
+footer {
+    border-top: 1px solid var(--line);
+    padding-top: 20px;
+    margin-top: 36px;
+}
+dialog {
+    background: var(--bg);
+    color: var(--ink);
+    border: 1px solid var(--line);
+    max-width: 750px;
+    width: 90%;
+    max-height: 80vh;
+}
+dialog::backdrop {
+    background: #0008;
+}
+dialog pre {
+    white-space: pre-wrap;
+    font:
+        14px/1.65 Manrope,
+        sans-serif;
+}
+#close-source {
+    float: right;
+}
+@media (max-width: 760px) {
+    .workspace {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 24px;
+    }
+    .intro {
+        display: block;
+    }
+    .intro h1 {
+        font-size: 45px;
+    }
+    .intro > p {
+        max-width: none;
+    }
+    .question-row {
+        flex-direction: column;
+    }
+    .reader {
+        padding: 20px;
+    }
+    #sentence {
+        font-size: 27px;
+        min-height: 180px;
+    }
+    .reader-controls {
+        flex-wrap: wrap;
+    }
+    .wordmark span {
+        display: block;
+        margin: 0;
+    }
+    header > a {
+        font-size: 12px;
+    }
+    .evidence-heading {
+        flex-wrap: wrap;
+    }
+}

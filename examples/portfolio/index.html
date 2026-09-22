@@ -1,2 +1,122 @@
-<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HALO / meeting assistant</title><link rel="stylesheet" href="style.css"><body><header><div class="wordmark">halo <span>meeting assistant</span></div><a href="https://github.com/LolStar123/halo">desktop app & source</a></header><main><div class="intro"><h1>keep the next<br>thought in view.</h1><p>Find the right passage in your meeting notes, check where it came from, then read it one sentence at a time.</p></div><div class="workspace"><aside><label>meeting pack<select id="pack"></select></label><p class="small">Fictional examples. Or paste your own notes below; they stay in this browser tab.</p><div id="documents"></div><details id="note-editor"><summary>add your own notes</summary><label>document title<input id="note-title" value="My meeting notes"></label><label>notes<textarea id="note-text" rows="7" placeholder="Paste an agenda, decisions or reference notes..."></textarea></label><button id="add-note">add to this meeting</button><label>or load .txt / .md files<input id="files" type="file" multiple accept=".txt,.md,text/plain,text/markdown"></label></details><button id="reset">restore example pack</button><p id="note-status" role="status"></p><h2>recent questions</h2><div id="history"></div></aside>
-<section><form id="question-form"><label for="question">what do you need to recall?</label><div class="question-row"><input id="question" placeholder="What is blocking launch?"><button>find in notes</button></div></form><p id="status" role="status"></p><div class="reader"><div class="reader-top"><span>sentence reader</span><span id="position"></span></div><p id="sentence" aria-live="polite"></p><div class="reader-controls"><button id="back">previous</button><label>type size<input id="size" type="range" min="24" max="46" value="32"></label><button id="next">next sentence</button></div></div><details class="cue-editor"><summary>edit the reading text</summary><label>your cue<textarea id="cue" rows="7"></textarea></label><button id="apply-cue">load into reader</button></details><div class="evidence-heading"><h2>matching source passages</h2><button id="export">export session notes</button></div><div id="evidence"></div></section></div><footer>This public workspace retrieves and quotes notes locally. It does not call an AI model, record audio or upload your files. The full Windows application combines notes, audio and selected-screen context through your own locally authenticated backend. <a href="https://github.com/LolStar123/halo#live-setup">Desktop setup</a>.</footer></main><dialog id="source"><button id="close-source">close</button><h2 id="source-title"></h2><pre id="source-text"></pre></dialog><script type="module" src="app.mjs"></script></body></html>
+<!doctype html>
+<html lang="en">
+    <meta charset="utf-8" /><meta
+        name="viewport"
+        content="width=device-width,initial-scale=1"
+    /><title>HALO / meeting assistant</title
+    ><link rel="stylesheet" href="style.css" />
+    <body>
+        <header>
+            <div class="wordmark">halo <span>meeting assistant</span></div>
+            <a href="https://github.com/LolStar123/halo"
+                >desktop app & source</a
+            >
+        </header>
+        <main>
+            <div class="intro">
+                <h1>keep the next<br />thought in view.</h1>
+                <p>
+                    Find the right passage in your meeting notes, check where it
+                    came from, then read it one sentence at a time.
+                </p>
+            </div>
+            <div class="workspace">
+                <aside>
+                    <label>meeting pack<select id="pack"></select></label>
+                    <p class="small">
+                        Fictional examples. Or paste your own notes below; they
+                        stay in this browser tab.
+                    </p>
+                    <div id="documents"></div>
+                    <details id="note-editor">
+                        <summary>add your own notes</summary>
+                        <label
+                            >document title<input
+                                id="note-title"
+                                value="My meeting notes" /></label
+                        ><label
+                            >notes<textarea
+                                id="note-text"
+                                rows="7"
+                                placeholder="Paste an agenda, decisions or reference notes..."
+                            ></textarea></label
+                        ><button id="add-note">add to this meeting</button
+                        ><label
+                            >or load .txt / .md files<input
+                                id="files"
+                                type="file"
+                                multiple
+                                accept=".txt,.md,text/plain,text/markdown"
+                        /></label>
+                    </details>
+                    <button id="reset">restore example pack</button>
+                    <p id="note-status" role="status"></p>
+                    <h2>recent questions</h2>
+                    <div id="history"></div>
+                </aside>
+                <section>
+                    <form id="question-form">
+                        <label for="question"
+                            >what do you need to recall?</label
+                        >
+                        <div class="question-row">
+                            <input
+                                id="question"
+                                placeholder="What is blocking launch?"
+                            /><button>find in notes</button>
+                        </div>
+                    </form>
+                    <p id="status" role="status"></p>
+                    <div class="reader">
+                        <div class="reader-top">
+                            <span>sentence reader</span
+                            ><span id="position"></span>
+                        </div>
+                        <p id="sentence" aria-live="polite"></p>
+                        <div class="reader-controls">
+                            <button id="back">previous</button
+                            ><label
+                                >type size<input
+                                    id="size"
+                                    type="range"
+                                    min="24"
+                                    max="46"
+                                    value="32" /></label
+                            ><button id="next">next sentence</button>
+                        </div>
+                    </div>
+                    <details class="cue-editor">
+                        <summary>edit the reading text</summary>
+                        <label
+                            >your cue<textarea
+                                id="cue"
+                                rows="7"
+                            ></textarea></label
+                        ><button id="apply-cue">load into reader</button>
+                    </details>
+                    <div class="evidence-heading">
+                        <h2>matching source passages</h2>
+                        <button id="export">export session notes</button>
+                    </div>
+                    <div id="evidence"></div>
+                </section>
+            </div>
+            <footer>
+                This public workspace retrieves and quotes notes locally. It
+                does not call an AI model, record audio or upload your files.
+                The full Windows application combines notes, audio and
+                selected-screen context through your own locally authenticated
+                backend.
+                <a href="https://github.com/LolStar123/halo#live-setup"
+                    >Desktop setup</a
+                >.
+            </footer>
+        </main>
+        <dialog id="source">
+            <button id="close-source">close</button>
+            <h2 id="source-title"></h2>
+            <pre id="source-text"></pre>
+        </dialog>
+        <script type="module" src="app.mjs"></script>
+    </body>
+</html>
