@@ -1,3 +1,14 @@
+<!-- working-example:start -->
+## Try it in a minute
+
+**[Live example](https://lolstar123.github.io/halo/)** · [Example code](examples/portfolio/model.mjs) · [Run locally](examples/portfolio/README.md) · [Atul's website](https://atul-kanodia-fieldnotes.atulswaggalicious.chatgpt.site)
+
+Ask a question against a small note pack; inspect retrieved evidence and step through a prepared cue.
+
+<img src="examples/portfolio/preview.png" alt="halo example inputs and calculated output" width="760">
+
+<!-- working-example:end -->
+
 # HALO
 
 ### A meeting helper that keeps the next sentence in view.
