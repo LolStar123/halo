@@ -48,6 +48,7 @@ try:
         page.screenshot(path=str(ROOT/'examples/portfolio/preview.png'))
         page.set_viewport_size({'width':390,'height':844})
         assert page.evaluate('document.documentElement.scrollWidth<=innerWidth+1'),'mobile overflow'
+        assert page.locator('#question-form').bounding_box()['y'] < page.locator('#documents').bounding_box()['y']
         assert not errors,errors
         print('PASS: four packs, custom notes, source inspection, no-evidence handling, sentence navigation and export')
         browser.close()

@@ -300,3 +300,15 @@ dialog pre {
         flex-wrap: wrap;
     }
 }
+
+@media (max-width: 780px) {
+    .workspace > section {
+        grid-row: 1;
+    }
+    .workspace > aside {
+        grid-row: 2;
+    }
+    .intro h1 {
+        font-size: 36px;
+    }
+}
