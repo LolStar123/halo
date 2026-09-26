@@ -178,12 +178,45 @@ details label {
     font-size: 11px;
     letter-spacing: 0.06em;
 }
+#answer-stage {
+    color: #d5ad69;
+    text-transform: uppercase;
+}
+#answer-stage[data-stage="clever answer"] {
+    color: #80b58e;
+}
+.answer-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(210px, 0.65fr);
+    gap: 22px;
+    align-items: stretch;
+    margin: 22px 0 24px;
+}
+#full-answer {
+    margin: 0;
+    min-height: 210px;
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+    font-size: 17px;
+    line-height: 1.75;
+}
+.sentence-square {
+    min-height: 210px;
+    border: 1px solid #5b7182;
+    background: #202d38;
+    padding: 18px;
+}
+.sentence-square small {
+    color: var(--accent);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
 #sentence {
     font:
-        32px/1.5 Manrope,
+        26px/1.45 Manrope,
         sans-serif;
-    min-height: 185px;
-    margin: 22px 0 30px;
+    margin: 18px 0 0;
     overflow-wrap: anywhere;
 }
 .reader-controls {
@@ -283,8 +316,14 @@ dialog pre {
         padding: 20px;
     }
     #sentence {
-        font-size: 27px;
-        min-height: 180px;
+        font-size: 24px;
+    }
+    .answer-layout {
+        grid-template-columns: 1fr;
+    }
+    #full-answer,
+    .sentence-square {
+        min-height: 0;
     }
     .reader-controls {
         flex-wrap: wrap;

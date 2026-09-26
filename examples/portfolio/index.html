@@ -16,8 +16,8 @@
             <div class="intro">
                 <h1>halo / meeting assistant</h1>
                 <p>
-                    Find the right passage in your meeting notes, check where it
-                    came from, then read it one sentence at a time.
+                    Find the right passage in your meeting notes. A fast answer
+                    lands first, then a stronger pass replaces it in place.
                 </p>
             </div>
             <div class="workspace">
@@ -69,10 +69,16 @@
                     <p id="status" role="status"></p>
                     <div class="reader">
                         <div class="reader-top">
-                            <span>sentence reader</span
+                            <span id="answer-stage">fast answer</span
                             ><span id="position"></span>
                         </div>
-                        <p id="sentence" aria-live="polite"></p>
+                        <div class="answer-layout">
+                            <p id="full-answer" aria-live="polite"></p>
+                            <div class="sentence-square">
+                                <small>now</small>
+                                <p id="sentence"></p>
+                            </div>
+                        </div>
                         <div class="reader-controls">
                             <button id="back">previous</button
                             ><label
@@ -102,8 +108,9 @@
                 </section>
             </div>
             <footer>
-                This public workspace retrieves and quotes notes locally. It
-                does not call an AI model, record audio or upload your files.
+                This public workspace simulates HALO's two-stage visual flow
+                using local note retrieval. It does not call an AI model,
+                record audio or upload your files.
                 The full Windows application combines notes, audio and
                 selected-screen context through your own locally authenticated
                 backend.

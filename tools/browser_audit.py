@@ -19,6 +19,8 @@ try:
         page.wait_for_function('window.__halo?.ready')
         assert page.evaluate('__halo.passages')>=8
         assert page.evaluate('__halo.matches')>0
+        assert page.evaluate('__halo.stage')=='fast answer'
+        page.wait_for_function("window.__halo.stage === 'clever answer'")
         first=page.locator('#sentence').inner_text()
         page.locator('#next').click()
         assert page.locator('#sentence').inner_text()!=first
@@ -43,6 +45,7 @@ try:
         with page.expect_download() as dl:page.locator('#export').click()
         assert 'seven crates' in Path(dl.value.path()).read_text()
         page.locator('#reset').click()
+        page.wait_for_function("window.__halo.stage === 'clever answer'")
         page.locator('#note-editor summary').click()
         page.evaluate('window.scrollTo(0,0)')
         page.screenshot(path=str(ROOT/'examples/portfolio/preview.png'))

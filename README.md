@@ -1,13 +1,13 @@
 <!-- working-example:start -->
 ## Use the meeting workspace in your browser
 
-**[Open HALO](https://lolstar123.github.io/halo/)** | [Browser source](examples/portfolio) | [Atul's site](https://atul-kanodia-fieldnotes.atulswaggalicious.chatgpt.site)
+**[Open HALO](https://lolstar123.github.io/halo/)** | [Browser source](examples/portfolio) | [Atul's site](https://lolstar123.github.io/just-a-little-further/)
 
-Choose one of four fictional meeting packs, or paste/upload your own notes. Ask what you need to recall, inspect the matching source passages and read them one sentence at a time. Edit the cue, revisit recent questions and export a Markdown session record.
+Choose a fictional meeting pack, or paste/upload your own notes. Ask a question and HALO retrieves the relevant passages locally. It shows a simulated **FAST ANSWER**, then replaces it with a broader **CLEVER ANSWER** assembled from the strongest matches. Read it one sentence at a time, inspect the evidence or export the session.
 
 ![HALO browser meeting workspace](examples/portfolio/preview.png)
 
-The browser uses local text retrieval and direct excerpts, not a hosted AI model. Your files remain in the tab and are not uploaded or persisted. No API key is required. It reports when no evidence matches. The full Windows application below provides audio, screen context and model inference through your own authenticated backend.
+The browser demo simulates HALO's current two-stage visual flow with local retrieval and direct excerpts, not a hosted AI model. Files remain in the tab and are not persisted. The Windows application below adds audio, screen context and model inference through your authenticated backend.
 
 <!-- working-example:end -->
 
@@ -26,14 +26,16 @@ without losing the current one.
 
 ## What it does
 
-- **Audio:** transcribes the selected audio source and runs independent short-cue
-  and full-response lanes. A slow response does not hold up the provisional cue.
+- **Visual:** a manual selected-screen solve can show a fast initial answer, then
+  replace it in place with a deeper second pass.
+- **Audio:** speech produces one focused answer after the local endpointer;
+  selected meeting notes can ground the response.
 - **Meeting notes:** loads a named local profile for audio responses. It does not
   search personal folders or invent missing decisions and commitments.
 - **Screen context:** processes the selected capture region, carries bounded
   observations between related questions, and can request one detail crop.
-- **Reading:** cyan keyword highlights, sentence navigation, answer history and
-  click-through reading surfaces. Dock buttons work without activating HALO.
+- **Reading:** a full answer sits beside a fixed sentence square, with clear
+  FAST/CLEVER stage labels, sentence navigation and answer history.
 - **Recovery:** cancellation and question IDs prevent stale responses from
   replacing the current one; context survives supported connection recovery.
 

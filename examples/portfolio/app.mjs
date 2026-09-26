@@ -17,7 +17,9 @@ let packs,
     matches = [],
     parts = [],
     position = 0,
-    history = [];
+    history = [],
+    stage = "fast",
+    stageToken = 0;
 function renderReader() {
     position = Math.min(position, Math.max(0, parts.length - 1));
     $("#sentence").textContent =
@@ -34,9 +36,15 @@ function renderReader() {
         matches: matches.length,
         sentences: parts.length,
         position,
+        stage,
     };
 }
-function setCue(text) {
+function setCue(text, nextStage = "source passage") {
+    stage = nextStage;
+    $("#answer-stage").textContent = nextStage;
+    $("#answer-stage").dataset.stage = nextStage;
+    $("#full-answer").textContent =
+        text || "No grounded answer in the selected notes.";
     $("#cue").value = text;
     parts = sentences(text);
     position = 0;
@@ -51,12 +59,20 @@ function renderDocs() {
         .join("");
 }
 function ask() {
+    const token = ++stageToken;
     const q = $("#question").value.trim();
     matches = retrieve(docs, q);
     $("#status").textContent = matches.length
-        ? `${matches.length} matching passages. Reading text contains direct excerpts, not an AI-written answer.`
+        ? `${matches.length} grounded passages. Simulating HALO's fast answer, then its stronger replacement.`
         : "No matching evidence in these notes. Add the missing source or try more specific words.";
-    setCue(extractCue(matches));
+    const fast = matches[0]?.text || "",
+        clever = extractCue(matches);
+    setCue(fast, matches.length ? "fast answer" : "no answer");
+    if (matches.length > 1)
+        setTimeout(() => {
+            if (token !== stageToken) return;
+            setCue(clever, "clever answer");
+        }, 1100);
     $("#evidence").innerHTML = matches
         .map(
             (m, i) =>
@@ -101,7 +117,10 @@ $("#next").onclick = () => {
 };
 $("#size").oninput = () =>
     ($("#sentence").style.fontSize = $("#size").value + "px");
-$("#apply-cue").onclick = () => setCue($("#cue").value);
+$("#apply-cue").onclick = () => {
+    stageToken++;
+    setCue($("#cue").value, "edited cue");
+};
 $("#documents").onclick = (e) => {
     const b = e.target.closest("[data-doc]");
     if (b) showSource(docs[Number(b.dataset.doc)]);
@@ -110,7 +129,10 @@ $("#close-source").onclick = () => $("#source").close();
 $("#evidence").onclick = (e) => {
     const read = e.target.closest("[data-read]"),
         source = e.target.closest("[data-source]");
-    if (read) setCue(matches[Number(read.dataset.read)].text);
+    if (read) {
+        stageToken++;
+        setCue(matches[Number(read.dataset.read)].text, "source passage");
+    }
     if (source)
         showSource(
             docs.find(
