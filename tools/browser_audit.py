@@ -35,6 +35,7 @@ try:
         page.locator('#add-note').click()
         page.locator('#question').fill('orchard crates');page.locator('#question-form button').click()
         assert 'seven crates' in page.locator('#sentence').inner_text()
+        page.locator('details summary').nth(1).click()
         page.locator('[data-source]').first.click()
         assert page.locator('#source').is_visible()
         assert 'seven crates' in page.locator('#source-text').inner_text()

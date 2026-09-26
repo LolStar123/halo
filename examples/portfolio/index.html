@@ -1,124 +1,13 @@
-<!doctype html>
-<html lang="en">
-    <meta charset="utf-8" /><meta
-        name="viewport"
-        content="width=device-width,initial-scale=1"
-    /><title>HALO / meeting assistant</title
-    ><link rel="stylesheet" href="style.css" />
-    <body>
-        <header>
-            <div class="wordmark">halo <span>meeting assistant</span></div>
-            <a href="https://github.com/LolStar123/halo"
-                >desktop app & source</a
-            >
-        </header>
-        <main>
-            <div class="intro">
-                <h1>halo / meeting assistant</h1>
-                <p>
-                    Find the right passage in your meeting notes. A fast answer
-                    lands first, then a stronger pass replaces it in place.
-                </p>
-            </div>
-            <div class="workspace">
-                <aside>
-                    <div id="documents"></div>
-                    <details id="note-editor">
-                        <summary>add your own notes</summary>
-                        <label
-                            >document title<input
-                                id="note-title"
-                                value="My meeting notes" /></label
-                        ><label
-                            >notes<textarea
-                                id="note-text"
-                                rows="7"
-                                placeholder="Paste an agenda, decisions or reference notes..."
-                            ></textarea></label
-                        ><button id="add-note">add to this meeting</button
-                        ><label
-                            >or load .txt / .md files<input
-                                id="files"
-                                type="file"
-                                multiple
-                                accept=".txt,.md,text/plain,text/markdown"
-                        /></label>
-                    </details>
-                    <button id="reset">restore example pack</button>
-                    <p id="note-status" role="status"></p>
-                    <h2>recent questions</h2>
-                    <div id="history"></div>
-                </aside>
-                <section>
-                    <label>meeting pack<select id="pack"></select></label>
-                    <p class="small">
-                        Examples run locally. Your notes stay in this tab.
-                    </p>
-                    <form id="question-form">
-                        <label for="question"
-                            >what do you need to recall?</label
-                        >
-                        <div class="question-row">
-                            <input
-                                id="question"
-                                placeholder="What is blocking launch?"
-                            /><button>find in notes</button>
-                        </div>
-                    </form>
-                    <p id="status" role="status"></p>
-                    <div class="reader">
-                        <div class="reader-top">
-                            <span id="answer-stage">fast answer</span
-                            ><span id="position"></span>
-                        </div>
-                        <div class="answer-layout">
-                            <p id="full-answer" aria-live="polite"></p>
-                            <div class="sentence-square">
-                                <small>now</small>
-                                <p id="sentence"></p>
-                            </div>
-                        </div>
-                        <div class="reader-controls">
-                            <button id="back">previous</button
-                            ><label
-                                >type size<input
-                                    id="size"
-                                    type="range"
-                                    min="24"
-                                    max="46"
-                                    value="32" /></label
-                            ><button id="next">next sentence</button>
-                        </div>
-                    </div>
-                    <details class="cue-editor">
-                        <summary>edit the reading text</summary>
-                        <label
-                            >your cue<textarea
-                                id="cue"
-                                rows="7"
-                            ></textarea></label
-                        ><button id="apply-cue">load into reader</button>
-                    </details>
-                    <div class="evidence-heading">
-                        <h2>matching source passages</h2>
-                        <button id="export">export session notes</button>
-                    </div>
-                    <div id="evidence"></div>
-                </section>
-            </div>
-            <footer>
-                Local note-retrieval demo. The Windows app also uses audio and
-                selected-screen context.
-                <a href="https://github.com/LolStar123/halo#live-setup"
-                    >Desktop setup</a
-                >.
-            </footer>
-        </main>
-        <dialog id="source">
-            <button id="close-source">close</button>
-            <h2 id="source-title"></h2>
-            <pre id="source-text"></pre>
-        </dialog>
-        <script type="module" src="app.mjs"></script>
-    </body>
-</html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>halo / meeting assistant</title><link rel="stylesheet" href="style.css"></head><body>
+<header><a href="https://lolstar123.github.io/just-a-little-further/">halo</a><a href="https://github.com/LolStar123/halo">source</a></header>
+<main>
+<section class="hero"><p>context engineering</p><h1>ask the meeting.<br><em>keep your place.</em></h1></section>
+<section class="question-panel"><label>meeting<select id="pack"></select></label><form id="question-form"><label for="question">question</label><div><input id="question" placeholder="What is blocking launch?"><button>find answer</button></div></form></section>
+<p id="status" role="status"></p>
+<section class="reader"><div class="reader-top"><span id="answer-stage">fast answer</span><span id="position"></span></div><p id="sentence" aria-live="polite"></p><div class="reader-controls"><button id="back">←</button><button id="next">→</button></div></section>
+<details class="full"><summary>full answer</summary><p id="full-answer"></p><label>type size<input id="size" type="range" min="24" max="46" value="32"></label><textarea id="cue" rows="5"></textarea><button id="apply-cue">use edited answer</button></details>
+<details><summary>sources</summary><div id="evidence"></div></details>
+<details id="note-editor"><summary>add notes</summary><div id="documents"></div><label>title<input id="note-title" value="My meeting notes"></label><label>notes<textarea id="note-text" rows="6"></textarea></label><button id="add-note">add notes</button><label>load text files<input id="files" type="file" multiple accept=".txt,.md,text/plain,text/markdown"></label><button id="reset">restore example</button><button id="export">export notes</button><p id="note-status"></p><div id="history" hidden></div></details>
+</main>
+<dialog id="source"><button id="close-source">close</button><h2 id="source-title"></h2><pre id="source-text"></pre></dialog>
+<script type="module" src="app.mjs"></script></body></html>

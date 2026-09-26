@@ -54,7 +54,7 @@ function renderDocs() {
     $("#documents").innerHTML = docs
         .map(
             (d, i) =>
-                `<button data-doc="${i}">${esc(d.title)} <small>/ ${chunks([d]).length} passages</small></button>`,
+                `<button data-doc="${i}">${esc(d.title)}</button>`,
         )
         .join("");
 }
@@ -63,8 +63,8 @@ function ask() {
     const q = $("#question").value.trim();
     matches = retrieve(docs, q);
     $("#status").textContent = matches.length
-        ? `${matches.length} grounded passages. Simulating HALO's fast answer, then its stronger replacement.`
-        : "No matching evidence in these notes. Add the missing source or try more specific words.";
+        ? `${matches.length} matching passages`
+        : "No matching note.";
     const fast = matches[0]?.text || "",
         clever = extractCue(matches);
     setCue(fast, matches.length ? "fast answer" : "no answer");
@@ -76,7 +76,7 @@ function ask() {
     $("#evidence").innerHTML = matches
         .map(
             (m, i) =>
-                `<article class="passage"><h3>${esc(m.source)} / ${esc(m.heading)}</h3><p>${esc(m.text)}</p><button data-read="${i}">read this passage</button><button data-source="${i}">open source</button><small>matched: ${esc(m.matched.join(", "))}</small></article>`,
+                `<article class="passage"><h3>${esc(m.source)} / ${esc(m.heading)}</h3><p>${esc(m.text)}</p><button data-read="${i}">read</button><button data-source="${i}">source</button></article>`,
         )
         .join("");
     if (q && !history.includes(q)) {
@@ -157,7 +157,7 @@ function addDoc(title, text) {
     docs.push({ title: name, text });
     renderDocs();
     ask();
-    $("#note-status").textContent = `Added ${name}. Files stay in this tab.`;
+    $("#note-status").textContent = `${name} added.`;
 }
 $("#add-note").onclick = () => {
     try {
