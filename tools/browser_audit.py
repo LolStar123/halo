@@ -20,7 +20,9 @@ try:
         assert page.evaluate('__halo.passages')>=8
         assert page.evaluate('__halo.matches')>0
         assert page.evaluate('__halo.stage')=='fast answer'
+        assert 'ms local' in page.locator('#latency').inner_text().lower()
         page.wait_for_function("window.__halo.stage === 'clever answer'")
+        assert page.locator('#latency').inner_text().strip().lower() == '/ 1.10s staged'
         first=page.locator('#sentence').inner_text()
         page.locator('#next').click()
         assert page.locator('#sentence').inner_text()!=first
@@ -47,6 +49,7 @@ try:
         assert 'seven crates' in Path(dl.value.path()).read_text()
         page.locator('#reset').click()
         page.wait_for_function("window.__halo.stage === 'clever answer'")
+        page.locator('details summary').nth(1).click()
         page.locator('#note-editor summary').click()
         page.evaluate('window.scrollTo(0,0)')
         page.screenshot(path=str(ROOT/'examples/portfolio/preview.png'))

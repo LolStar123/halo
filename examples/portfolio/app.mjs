@@ -19,6 +19,7 @@ let packs,
     position = 0,
     history = [],
     stage = "fast",
+    latency = "",
     stageToken = 0;
 function renderReader() {
     position = Math.min(position, Math.max(0, parts.length - 1));
@@ -37,12 +38,15 @@ function renderReader() {
         sentences: parts.length,
         position,
         stage,
+        latency,
     };
 }
-function setCue(text, nextStage = "source passage") {
+function setCue(text, nextStage = "source passage", nextLatency = "") {
     stage = nextStage;
+    latency = nextLatency;
     $("#answer-stage").textContent = nextStage;
     $("#answer-stage").dataset.stage = nextStage;
+    $("#latency").textContent = nextLatency ? ` / ${nextLatency}` : "";
     $("#full-answer").textContent =
         text || "No grounded answer in the selected notes.";
     $("#cue").value = text;
@@ -61,17 +65,23 @@ function renderDocs() {
 function ask() {
     const token = ++stageToken;
     const q = $("#question").value.trim();
+    const started = performance.now();
     matches = retrieve(docs, q);
+    const retrievalMs = performance.now() - started;
     $("#status").textContent = matches.length
         ? `${matches.length} matching passages`
         : "No matching note.";
     const fast = matches[0]?.text || "",
         clever = extractCue(matches);
-    setCue(fast, matches.length ? "fast answer" : "no answer");
+    setCue(
+        fast,
+        matches.length ? "fast answer" : "no answer",
+        `${retrievalMs.toFixed(1)}ms local`,
+    );
     if (matches.length > 1)
         setTimeout(() => {
             if (token !== stageToken) return;
-            setCue(clever, "clever answer");
+            setCue(clever, "clever answer", "1.10s staged");
         }, 1100);
     $("#evidence").innerHTML = matches
         .map(

@@ -1,10 +1,10 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>halo / meeting assistant</title><link rel="stylesheet" href="style.css"><link rel="stylesheet" href="identity.css"></head><body>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>halo / meeting assistant</title><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="style.css"><link rel="stylesheet" href="identity.css"></head><body>
 <header><a href="https://lolstar123.github.io/just-a-little-further/">halo</a><a href="https://github.com/LolStar123/halo">source</a></header>
 <main>
-<section class="hero"><p>low-latency inference</p><h1>answer ready</h1></section>
+<section class="hero"><h1>answer ready</h1></section>
 <section class="question-panel"><label>meeting<select id="pack"></select></label><form id="question-form"><label for="question">question</label><div><input id="question" placeholder="What is blocking launch?"><button>find answer</button></div></form></section>
 <p id="status" role="status"></p>
-<section class="reader"><div class="reader-top"><span id="answer-stage">fast answer</span><span id="position"></span></div><p id="sentence" aria-live="polite"></p><div class="reader-controls"><button id="back">←</button><button id="next">→</button></div></section>
+<section class="reader"><div class="reader-top"><span><span id="answer-stage">fast answer</span><span id="latency"></span></span><span id="position"></span></div><p id="sentence" aria-live="polite"></p><div class="reader-controls"><button id="back">←</button><button id="next">→</button></div></section>
 <details class="full"><summary>full answer</summary><p id="full-answer"></p><label>type size<input id="size" type="range" min="24" max="46" value="32"></label><textarea id="cue" rows="5"></textarea><button id="apply-cue">use edited answer</button></details>
 <details><summary>sources</summary><div id="evidence"></div></details>
 <details id="note-editor"><summary>add notes</summary><div id="documents"></div><label>title<input id="note-title" value="My meeting notes"></label><label>notes<textarea id="note-text" rows="6"></textarea></label><button id="add-note">add notes</button><label>load text files<input id="files" type="file" multiple accept=".txt,.md,text/plain,text/markdown"></label><button id="reset">restore example</button><button id="export">export notes</button><p id="note-status"></p><div id="history" hidden></div></details>
