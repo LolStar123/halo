@@ -20,9 +20,14 @@ try:
         assert page.evaluate('__halo.passages')>=8
         assert page.evaluate('__halo.matches')>0
         assert page.evaluate('__halo.stage')=='fast answer'
+        assert page.locator('[data-prompt]').count() == 3
+        assert 'passages' in page.locator('#grounding').inner_text().lower()
         assert 'ms local' in page.locator('#latency').inner_text().lower()
         page.wait_for_function("window.__halo.stage === 'clever answer'")
         assert page.locator('#latency').inner_text().strip().lower() == '/ 1.10s staged'
+        page.locator('[data-prompt]').nth(1).click()
+        assert page.locator('#question').input_value() == 'What is the rollback plan?'
+        page.wait_for_function("window.__halo.stage === 'clever answer'")
         first=page.locator('#sentence').inner_text()
         page.locator('#next').click()
         assert page.locator('#sentence').inner_text()!=first
@@ -35,14 +40,14 @@ try:
         page.locator('#note-title').fill('Custom decision')
         page.locator('#note-text').fill('# Orchard review\n\nThe orchard meeting needs seven crates of apples. Alice brings the crates.')
         page.locator('#add-note').click()
-        page.locator('#question').fill('orchard crates');page.locator('#question-form button').click()
+        page.locator('#question').fill('orchard crates');page.locator('#question-form button[type="submit"]').click()
         assert 'seven crates' in page.locator('#sentence').inner_text()
         page.locator('details summary').nth(1).click()
         page.locator('[data-source]').first.click()
         assert page.locator('#source').is_visible()
         assert 'seven crates' in page.locator('#source-text').inner_text()
         page.locator('#close-source').click()
-        page.locator('#question').fill('zzzz submarine');page.locator('#question-form button').click()
+        page.locator('#question').fill('zzzz submarine');page.locator('#question-form button[type="submit"]').click()
         assert page.evaluate('__halo.matches')==0
         assert 'No matching' in page.locator('#status').inner_text()
         with page.expect_download() as dl:page.locator('#export').click()

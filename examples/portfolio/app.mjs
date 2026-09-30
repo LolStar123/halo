@@ -21,6 +21,12 @@ let packs,
     stage = "fast",
     latency = "",
     stageToken = 0;
+const promptBank = {
+    pilot: ["What is blocking launch?", "What is the rollback plan?", "When is the readiness review?"],
+    incident: ["What caused the queue backlog?", "How do we stop the retry storm?", "What still needs reconciling?"],
+    research: ["How does the strategy avoid look-ahead?", "How will we test outside training?", "Which costs must be included?"],
+    handoff: ["What must the verifier check?", "What happens after a failed save?", "What is the file size limit?"],
+};
 function renderReader() {
     position = Math.min(position, Math.max(0, parts.length - 1));
     $("#sentence").textContent =
@@ -28,6 +34,9 @@ function renderReader() {
         "No matching note yet. Try another question or add a source.";
     $("#position").textContent =
         `${parts.length ? position + 1 : 0} / ${parts.length}`;
+    $("#grounding").textContent = matches.length
+        ? `${matches.length} passages · ${docs.length} notes / `
+        : "no grounded passages / ";
     $("#back").disabled = position === 0;
     $("#next").disabled = position >= parts.length - 1;
     window.__halo = {
@@ -60,6 +69,12 @@ function renderDocs() {
             (d, i) =>
                 `<button data-doc="${i}">${esc(d.title)}</button>`,
         )
+        .join("");
+}
+function renderPrompts() {
+    const id = $("#pack").value;
+    $("#quick-prompts").innerHTML = (promptBank[id] || [])
+        .map((prompt) => `<button type="button" data-prompt="${esc(prompt)}">${esc(prompt)}</button>`)
         .join("");
 }
 function ask() {
@@ -104,6 +119,7 @@ function loadPack() {
     $("#question").value = pack.question;
     $("#note-status").textContent = "";
     renderDocs();
+    renderPrompts();
     ask();
 }
 function showSource(doc) {
@@ -117,6 +133,12 @@ $("#question-form").onsubmit = (e) => {
     e.preventDefault();
     ask();
 };
+$("#quick-prompts").onclick = (e) => {
+    const button = e.target.closest("[data-prompt]");
+    if (!button) return;
+    $("#question").value = button.dataset.prompt;
+    ask();
+};
 $("#back").onclick = () => {
     position--;
     renderReader();
@@ -124,6 +146,23 @@ $("#back").onclick = () => {
 $("#next").onclick = () => {
     position++;
     renderReader();
+};
+$("#copy-answer").onclick = async () => {
+    const text = $("#full-answer").textContent.trim();
+    try {
+        if (navigator.clipboard?.writeText) await navigator.clipboard.writeText(text);
+        else {
+            const copy = document.createElement("textarea");
+            copy.value = text;
+            document.body.append(copy);
+            copy.select();
+            document.execCommand("copy");
+            copy.remove();
+        }
+        $("#copy-status").textContent = "answer copied";
+    } catch {
+        $("#copy-status").textContent = "select the full answer to copy it";
+    }
 };
 $("#size").oninput = () =>
     ($("#sentence").style.fontSize = $("#size").value + "px");
