@@ -35,8 +35,8 @@ function renderReader() {
     $("#position").textContent =
         `${parts.length ? position + 1 : 0} / ${parts.length}`;
     $("#grounding").textContent = matches.length
-        ? `${matches.length} passages · ${docs.length} notes / `
-        : "no grounded passages / ";
+        ? `${docs.length} notes`
+        : "no grounded notes";
     $("#back").disabled = position === 0;
     $("#next").disabled = position >= parts.length - 1;
     window.__halo = {
@@ -59,6 +59,7 @@ function setCue(text, nextStage = "source passage", nextLatency = "") {
     $("#full-answer").textContent =
         text || "No grounded answer in the selected notes.";
     $("#cue").value = text;
+    $("#copy-status").textContent = "";
     parts = sentences(text);
     position = 0;
     renderReader();
@@ -84,8 +85,8 @@ function ask() {
     matches = retrieve(docs, q);
     const retrievalMs = performance.now() - started;
     $("#status").textContent = matches.length
-        ? `${matches.length} matching passages`
-        : "No matching note.";
+        ? "grounded locally"
+        : "no grounded match";
     const fast = matches[0]?.text || "",
         clever = extractCue(matches);
     setCue(
@@ -156,8 +157,9 @@ $("#copy-answer").onclick = async () => {
             copy.value = text;
             document.body.append(copy);
             copy.select();
-            document.execCommand("copy");
+            const copied = document.execCommand("copy");
             copy.remove();
+            if (!copied) throw Error("Copy was declined by the browser.");
         }
         $("#copy-status").textContent = "answer copied";
     } catch {
