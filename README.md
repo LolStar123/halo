@@ -1,117 +1,103 @@
-<!-- working-example:start -->
-## Use the meeting workspace in your browser
-
-**[Open HALO](https://lolstar123.github.io/halo/)** | [Browser source](examples/portfolio) | [Atul's site](https://lolstar123.github.io/just-a-little-further/)
-
-Choose a fictional meeting pack, or paste/upload your own notes. Ask a question and HALO retrieves the relevant passages locally. It shows a simulated **FAST ANSWER**, then replaces it with a broader **CLEVER ANSWER** assembled from the strongest matches. Read it one sentence at a time, inspect the evidence or export the session.
-
-![HALO browser meeting workspace](examples/portfolio/preview.png)
-
-The browser demo simulates HALO's current two-stage visual flow with local retrieval and direct excerpts, not a hosted AI model. Files remain in the tab and are not persisted. The Windows application below adds audio, screen context and model inference through your authenticated backend.
-
-<!-- working-example:end -->
-
 # HALO
 
-### A meeting helper that keeps the next sentence in view.
+A meeting workspace that keeps the current sentence, full answer and supporting notes visible together.
 
-HALO combines spoken questions, local meeting notes and selected-screen context
-with a compact Windows reading overlay. Keep the full response beside a sentence
-reader, move through it with keyboard shortcuts, and return to earlier responses
-without losing the current one.
+**[Open HALO](https://lolstar123.github.io/halo/)** · [Browser code](examples/portfolio) · [Public-build scope](PROVENANCE.md)
 
-![HALO's actual Qt reading components, rendered with a synthetic pilot-review example](docs/meeting-preview.png)
+![HALO meeting workspace with local notes, reading cue, full answer and source rail](examples/portfolio/preview.png)
 
-*Real Qt components rendered offscreen. The example is synthetic; no meeting was recorded.*
+## Try the browser workspace
 
-## What it does
+Choose one of four fictional packs: pilot readiness, incident review, trading research or project handoff. Each has three questions matched to its notes. Ask another question, paste notes or upload a `.txt` / `.md` file to change what the reader can find.
 
-- **Visual:** a manual selected-screen solve can show a fast initial answer, then
-  replace it in place with a deeper second pass.
-- **Audio:** speech produces one focused answer after the local endpointer;
-  selected meeting notes can ground the response.
-- **Meeting notes:** loads a named local profile for audio responses. It does not
-  search personal folders or invent missing decisions and commitments.
-- **Screen context:** processes the selected capture region, carries bounded
-  observations between related questions, and can request one detail crop.
-- **Reading:** a full answer sits beside a fixed sentence square, with clear
-  FAST/CLEVER stage labels, sentence navigation and answer history.
-- **Recovery:** cancellation and question IDs prevent stale responses from
-  replacing the current one; context survives supported connection recovery.
+The browser ranks passages locally. **FAST ANSWER** shows the first matching passage; after a staged 1.10-second delay, **CLEVER ANSWER** joins up to three matches. These labels demonstrate the desktop reading flow. The browser makes no model call, records no audio and captures no screen.
 
-## Try the preview
+- Read one sentence at a time with the arrow buttons or ← / → keys. Keyboard navigation pauses while typing or viewing a source.
+- **Copy answer** copies the complete answer. **Open source** shows the original note; Escape closes it.
+- An unmatched question produces an explicit empty state. The reader does not invent an answer.
+- **Adjust the reading cue** changes the text and type size. Edited text is marked for checking against the notes.
+- **Export notes** downloads the notes, current question and cue as Markdown.
 
-Windows and Python 3.11+ are required for the desktop runtime.
+Notes remain in the tab and are cleared on refresh. A session holds at most 12 notes and 500,000 characters; each pasted note is limited to 200,000 characters and each uploaded file to 250 KB. Retrieval returns at most five passages, and the question history keeps eight entries.
+
+## Run the browser lab locally
+
+Python 3 serves the static files. Node.js 20+ runs the model tests. No npm dependencies or model account are required.
 
 ```powershell
 git clone https://github.com/LolStar123/halo.git
 cd halo
+python -m http.server 8000 --bind 127.0.0.1 --directory examples/portfolio
+```
+
+Open [localhost:8000](http://localhost:8000). Use HTTP rather than opening `index.html` directly. Stop the server with Ctrl+C.
+
+```powershell
+node --test examples/portfolio/model.test.mjs
+```
+
+Expected: three tests pass, covering all four packs, custom-note retrieval, unmatched queries and sentence splitting.
+
+| Browser file | Responsibility |
+|---|---|
+| [`app.mjs`](examples/portfolio/app.mjs) | Pack selection, staged excerpts, sentence position, notes, copy and export |
+| [`model.mjs`](examples/portfolio/model.mjs) | Passage splitting, term-based ranking and sentence segmentation |
+| [`data/meetings.json`](examples/portfolio/data/meetings.json) | Four authored fictional meeting packs |
+| [`style.css`](examples/portfolio/style.css) | Graphite/navy surfaces, reading layout and responsive behavior |
+| [`tools/browser_audit.py`](tools/browser_audit.py) | Interaction, failure, keyboard and screenshot checks |
+
+## Windows desktop application
+
+The Python application combines audio questions, a selected screen region and local notes with a Qt reading overlay. Audio produces a focused answer after local endpoint detection. A manual visual solve can deliver a fast initial answer followed by a deeper pass. Answer IDs and cancellation prevent old responses from replacing the current one.
+
+Windows and Python 3.11+ are required. Install the desktop dependencies and run the synthetic preview:
+
+```powershell
 python -m pip install -r requirements-dev.txt
 python demo.py
 ```
 
-The preview uses saved synthetic text. It makes no model calls and captures no
-audio or screen content. Close it before launching the live application because
-both use the same keyboard shortcuts.
-
-To reproduce the image without displaying a window:
+The preview uses saved text. It makes no model calls and captures no audio or screen. Close it before starting the live application because they share keyboard shortcuts. For an offscreen image:
 
 ```powershell
 $env:QT_QPA_PLATFORM = "offscreen"
 python demo.py --snapshot docs/meeting-preview.png
 ```
 
-## Live setup
+The live inference transport uses a locally authenticated Codex app-server. Model access is not bundled. Set `brain_model` and `speed_model` in your local `config.json` to models available to your account. Speech recognition may download model weights.
 
-The inference backend connects to a locally authenticated Codex app-server.
-The model defaults reflect the development setup; model access is not bundled.
-Set `brain_model` and `speed_model` in your local `config.json` to models your
-account can use before running inference. The launcher and audio capture are
-Windows-specific, and speech recognition may download model weights.
-
-Place your notes in `profiles/<meeting-name>/context.md`; an example is in
-[`examples/meeting-notes.md`](examples/meeting-notes.md). Local profiles and
-configuration are gitignored.
+Put notes in `profiles/<meeting-name>/context.md`; see [`examples/meeting-notes.md`](examples/meeting-notes.md). Configuration and local profiles are gitignored.
 
 ```powershell
 pythonw halo.py --meeting weekly-review --paused
 ```
 
-Start paused, select the input and capture region, then resume from the dock.
-Audio responses use the selected notes. Visual requests do not receive them.
-Generated responses still need review. This build does not automatically produce
-minutes or maintain an action register, and capture exclusion depends on the
-screen-sharing path rather than providing universal protection.
+Start paused, choose the input and capture region, then resume from the dock. Audio answers use the selected meeting notes; visual requests do not receive them. Generated answers need review. This build does not create automatic minutes or maintain an action register. Capture exclusion depends on the sharing path.
 
-## Inside the application
-
-```mermaid
-flowchart LR
-    A[Audio / selected screen] --> B[Question scheduling]
-    N[Local meeting notes] --> C[Audio response context]
-    B --> C
-    B --> D[Visual observations]
-    C --> E[Short cue + full response]
-    D --> E
-    E --> F[Answer log + sentence reader]
-```
-
-`engine.py` owns scheduling; `codex_transport.py` owns streaming and interruption.
-`meeting_context.py` loads notes. `overlay.py`, `answer_log.py` and
-`live_sentences.py` own the reading surfaces. `windowing.py` handles Windows
-focus and capture behaviour.
+| Desktop file | Responsibility |
+|---|---|
+| [`engine.py`](engine.py) | Scheduling, audio and visual response flow |
+| [`codex_transport.py`](codex_transport.py) | Streaming inference, interruption and connection recovery |
+| [`meeting_context.py`](meeting_context.py) | Selected local profile loading |
+| [`overlay.py`](overlay.py), [`answer_log.py`](answer_log.py) | Reading surfaces and answer history |
+| [`live_sentences.py`](live_sentences.py), [`sentence_reader.py`](sentence_reader.py) | Sentence delivery and navigation |
+| [`windowing.py`](windowing.py) | Windows focus and capture behavior |
 
 ## Verification
 
-The public build passed **35 focused tests** on 15 September 2026, covering
-answer history, capture configuration, visual memory and meeting-note isolation.
+```powershell
+python -m pip install playwright
+python -m playwright install chromium
+python tools/browser_audit.py
+```
+
+The browser audit uses installed Chrome on Windows and Playwright Chromium elsewhere. It checks four packs, rapid prompt changes, custom notes, source inspection and Escape, unmatched queries, keyboard navigation, repeated copy, edited-cue persistence, rejected uploads, exports, fixture-load errors and reduced motion. It captures desktop and 390 px mobile views in `output/playwright/`; the desktop view also updates the screenshot above.
+
+Desktop checks:
 
 ```powershell
 $env:QT_QPA_PLATFORM = "offscreen"
 python -m pytest tests -q
 ```
 
-These tests use synthetic inputs and mocked inference. They do not establish
-speech-recognition accuracy, live model quality or compatibility with every
-screen-sharing provider. The next work is broader live meeting evaluation and
-a simpler installation path.
+The 35 desktop tests cover answer history, capture configuration, visual memory and meeting-note isolation with synthetic inputs and mocked inference. They do not measure speech recognition, live model quality or every screen-sharing provider. Broader live meeting evaluation remains open.

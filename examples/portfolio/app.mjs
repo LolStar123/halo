@@ -35,8 +35,9 @@ function renderReader() {
     $("#position").textContent =
         `${parts.length ? position + 1 : 0} / ${parts.length}`;
     $("#grounding").textContent = matches.length
-        ? `${docs.length} notes`
+        ? stage === "edited cue" ? "edited text · check against notes" : `${matches.length} matches · ${docs.length} notes`
         : "no grounded notes";
+    $("#copy-answer").disabled = !parts.length;
     $("#back").disabled = position === 0;
     $("#next").disabled = position >= parts.length - 1;
     window.__halo = {
@@ -65,6 +66,7 @@ function setCue(text, nextStage = "source passage", nextLatency = "") {
     renderReader();
 }
 function renderDocs() {
+    $("#document-count").textContent = docs.length;
     $("#documents").innerHTML = docs
         .map(
             (d, i) =>
@@ -102,9 +104,9 @@ function ask() {
     $("#evidence").innerHTML = matches
         .map(
             (m, i) =>
-                `<article class="passage"><h3>${esc(m.source)} / ${esc(m.heading)}</h3><p>${esc(m.text)}</p><button data-read="${i}">read</button><button data-source="${i}">source</button></article>`,
+                `<article class="passage"><h3>${esc(m.source)} / ${esc(m.heading)}</h3><p>${esc(m.text)}</p><button data-read="${i}">Read passage</button><button data-source="${i}">Open source</button></article>`,
         )
-        .join("");
+        .join("") || '<p class="evidence-empty">No matching passage. Try a phrase from your notes or add a source.</p>';
     if (q && !history.includes(q)) {
         history.unshift(q);
         history = history.slice(0, 8);
@@ -203,6 +205,9 @@ function addDoc(title, text) {
     if (!text.trim()) throw Error("Paste some notes first.");
     if (text.length > 200000)
         throw Error("Keep each document under 200,000 characters.");
+    if (docs.length >= 12) throw Error("This session holds 12 notes. Export them, then restore an example to start again.");
+    if (docs.reduce((total, doc) => total + doc.text.length, text.length) > 500000)
+        throw Error("Keep the session under 500,000 characters. Export notes before starting again.");
     let name = title.trim() || "Untitled notes";
     while (docs.some((d) => d.title === name)) name += " (new)";
     docs.push({ title: name, text });
@@ -221,12 +226,15 @@ $("#add-note").onclick = () => {
 $("#files").onchange = async (e) => {
     try {
         for (const file of e.target.files) {
+            if (!/\.(txt|md)$/i.test(file.name)) throw Error(`${file.name}: choose a .txt or .md file.`);
             if (file.size > 250000)
                 throw Error(`${file.name}: choose a text file under 250 KB.`);
             addDoc(file.name, await file.text());
         }
     } catch (e) {
         $("#note-status").textContent = e.message;
+    } finally {
+        $("#files").value = "";
     }
 };
 $("#export").onclick = () => {
@@ -266,6 +274,7 @@ try {
         .join("");
     loadPack();
 } catch (e) {
-    $("#status").textContent = e.message;
-    throw e;
+    $("#status").textContent = `${e.message}. Refresh to retry.`;
+    for (const id of ["pack", "reset", "add-note", "files", "export", "copy-answer", "apply-cue", "back", "next"]) $("#" + id).disabled = true;
+    $("#question-form button[type=submit]").disabled = true;
 }
