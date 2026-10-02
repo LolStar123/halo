@@ -439,7 +439,8 @@ h1 {
 }
 .full {
     border-top:1px solid var(--line);
-    padding-top:22px
+    padding-top:22px;
+    margin-top:24px
 }
 .section-title {
     display:flex;

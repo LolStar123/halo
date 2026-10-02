@@ -21,10 +21,10 @@ try:
         assert page.evaluate('__halo.matches')>0
         assert page.evaluate('__halo.stage')=='fast answer'
         assert page.locator('[data-prompt]').count() == 3
-        assert 'notes' in page.locator('#grounding').inner_text().lower()
-        assert 'ms local' in page.locator('#latency').inner_text().lower()
+        assert page.locator('.passage').count() == page.evaluate('__halo.matches')
+        assert 'ms local' in page.evaluate('__halo.latency').lower()
         page.wait_for_function("window.__halo.stage === 'clever answer'")
-        assert page.locator('#latency').inner_text().strip().lower() == '/ 1.10s staged'
+        assert page.evaluate('__halo.latency') == '1.10s staged'
         assert page.locator('.passage-text').first.is_hidden()
         page.locator('[data-read]').first.click()
         assert page.locator('.passage-text').first.is_visible()

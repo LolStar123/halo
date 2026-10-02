@@ -35,7 +35,7 @@ function renderReader() {
     $("#position").textContent =
         `${parts.length ? position + 1 : 0} / ${parts.length}`;
     $("#grounding").textContent = matches.length
-        ? stage === "edited cue" ? "edited text · check against notes" : `${matches.length} matches · ${docs.length} notes`
+        ? stage === "edited cue" ? "edited text · check sources" : ""
         : "no grounded notes";
     $("#copy-answer").disabled = !parts.length;
     $("#back").disabled = position === 0;
@@ -56,7 +56,6 @@ function setCue(text, nextStage = "source passage", nextLatency = "") {
     latency = nextLatency;
     $("#answer-stage").textContent = nextStage;
     $("#answer-stage").dataset.stage = nextStage;
-    $("#latency").textContent = nextLatency ? ` / ${nextLatency}` : "";
     $("#full-answer").textContent =
         text || "No grounded answer in the selected notes.";
     $("#cue").value = text;
@@ -66,7 +65,6 @@ function setCue(text, nextStage = "source passage", nextLatency = "") {
     renderReader();
 }
 function renderDocs() {
-    $("#document-count").textContent = docs.length;
     $("#documents").innerHTML = docs
         .map(
             (d, i) =>
@@ -87,7 +85,7 @@ function ask() {
     matches = retrieve(docs, q);
     const retrievalMs = performance.now() - started;
     $("#status").textContent = matches.length
-        ? "grounded locally"
+        ? ""
         : "no grounded match";
     const fast = matches[0]?.text || "",
         clever = extractCue(matches);
@@ -104,7 +102,7 @@ function ask() {
     $("#evidence").innerHTML = matches
         .map(
             (m, i) =>
-                `<article class="passage"><h3>${esc(m.source)} / ${esc(m.heading)}</h3><p id="passage-${i}" class="passage-text">${esc(m.text)}</p><button data-read="${i}" aria-controls="passage-${i}" aria-expanded="false">Read passage</button><button data-source="${i}">Open source</button></article>`,
+                `<article class="passage"><h3>${esc(m.source)} / ${esc(m.heading)}</h3><p id="passage-${i}" class="passage-text">${esc(m.text)}</p><button data-read="${i}" aria-controls="passage-${i}" aria-expanded="false">Passage</button><button data-source="${i}">Source</button></article>`,
         )
         .join("") || '<p class="evidence-empty">No matching passage. Try a phrase from your notes or add a source.</p>';
     if (q && !history.includes(q)) {
