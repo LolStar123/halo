@@ -163,6 +163,7 @@ $("#copy-answer").onclick = async () => {
         }
         $("#copy-status").textContent = "answer copied";
     } catch {
+        $(".answer-details").open = true;
         $("#copy-status").textContent = "select the full answer to copy it";
     }
 };

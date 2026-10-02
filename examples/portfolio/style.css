@@ -445,12 +445,24 @@ h1 {
 .section-title {
     display:flex;
     justify-content:space-between;
-    align-items:center;
+    align-items:flex-start;
     gap:12px
 }
 .section-title h2 {
     font-size:14px;
     margin:0;
+    font-weight:500
+}
+.answer-details {
+    flex:1;
+    min-width:0;
+    border:0
+}
+.answer-details summary {
+    padding:4px 0;
+    min-height:32px;
+    color:var(--ink);
+    font-size:14px;
     font-weight:500
 }
 #copy-answer {

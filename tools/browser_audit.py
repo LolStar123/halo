@@ -25,6 +25,14 @@ try:
         assert 'ms local' in page.evaluate('__halo.latency').lower()
         page.wait_for_function("window.__halo.stage === 'clever answer'")
         assert page.evaluate('__halo.latency') == '1.10s staged'
+        assert page.locator('#full-answer').is_hidden()
+        full_answer = page.locator('#full-answer').text_content()
+        page.locator('.answer-details > summary').click()
+        assert page.locator('#full-answer').is_visible()
+        assert page.locator('#full-answer').text_content() == full_answer
+        page.locator('.answer-details > summary').click()
+        assert page.locator('#full-answer').is_hidden()
+        assert page.locator('#copy-answer').is_visible()
         assert page.locator('.passage-text').first.is_hidden()
         page.locator('[data-read]').first.click()
         assert page.locator('.passage-text').first.is_visible()
@@ -50,6 +58,8 @@ try:
         page.evaluate("Object.defineProperty(navigator, 'clipboard', {value: {writeText: async () => { throw Error('denied'); }}, configurable: true})")
         page.locator('#copy-answer').click()
         page.wait_for_function("document.querySelector('#copy-status').textContent==='select the full answer to copy it'")
+        assert page.locator('#full-answer').is_visible()
+        page.locator('.answer-details > summary').click()
         page.evaluate("Object.defineProperty(navigator, 'clipboard', {value: {writeText: async text => { window.__copied = text; }}, configurable: true})")
         page.locator('[data-prompt]').nth(0).click()
         assert page.locator('#copy-status').inner_text() == ''
@@ -100,6 +110,8 @@ try:
         page.locator('#reset').click()
         page.wait_for_function("window.__halo.stage === 'clever answer'")
         page.locator('#note-editor summary').click()
+        assert page.locator('#full-answer').is_hidden()
+        assert page.locator('#copy-answer').is_visible()
         page.evaluate('window.scrollTo(0,0)')
         page.screenshot(path=str(ROOT/'examples/portfolio/preview.png'),full_page=True)
         page.set_viewport_size({'width':390,'height':844})
