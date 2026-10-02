@@ -18,9 +18,9 @@ The earlier narrow demo collapsed both evidence and full answer. The redesign pu
 
 ## Interaction and truth
 
-Four finite fictional packs supply three context-specific prompts each. Browser retrieval returns direct note excerpts. FAST/CLEVER labels demonstrate a staged visual handoff with a fixed 1.10-second delay, not model inference. The UI says local notes and excerpt demo; the reading hint states what the stage labels mean.
+Four finite fictional packs supply three context-specific prompts each. Browser retrieval returns direct note excerpts. FAST/CLEVER labels demonstrate a staged visual handoff with a fixed 1.10-second delay, not model inference. One visible line states Local excerpts. No model call. Meeting notes and Sources are direct headings without stacked promotional copy; timings mark the staged handoff.
 
-The full answer and matching sources remain visible. Read passage changes the cue; Open source opens the original text in a native dialog. Escape closes the dialog and focus returns to its trigger. Arrow keys navigate only outside text controls and dialogs. Copy uses the full answer and reports failure honestly.
+The full answer, source titles and source actions remain visible. Passage text stays collapsed until requested, avoiding a third copy of the answer on mobile. Read passage expands its excerpt and changes the cue; Open source opens the original text in a native dialog. Escape closes the dialog and focus returns to its trigger. Arrow keys navigate only outside text controls and dialogs. Copy uses the full answer and reports failure honestly.
 
 Editing a cue cancels the pending staged update and labels the text for checking. Unmatched queries clear sources and disable copy. Note and session limits keep retrieval bounded. A fixture-load failure disables dependent actions. Imported notes stay in memory and are cleared on refresh. No live microphone, screen capture or invented model controls appear in this browser build.
 

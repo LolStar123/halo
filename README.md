@@ -13,7 +13,7 @@ Choose one of four fictional packs: pilot readiness, incident review, trading re
 The browser ranks passages locally. **FAST ANSWER** shows the first matching passage; after a staged 1.10-second delay, **CLEVER ANSWER** joins up to three matches. These labels demonstrate the desktop reading flow. The browser makes no model call, records no audio and captures no screen.
 
 - Read one sentence at a time with the arrow buttons or ← / → keys. Keyboard navigation pauses while typing or viewing a source.
-- **Copy answer** copies the complete answer. **Open source** shows the original note; Escape closes it.
+- **Copy answer** copies the complete answer. **Read passage** expands an excerpt and puts it in the reader. **Open source** shows the original note; Escape closes it.
 - An unmatched question produces an explicit empty state. The reader does not invent an answer.
 - **Adjust the reading cue** changes the text and type size. Edited text is marked for checking against the notes.
 - **Export notes** downloads the notes, current question and cue as Markdown.

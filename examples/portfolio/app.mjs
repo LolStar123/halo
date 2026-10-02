@@ -104,7 +104,7 @@ function ask() {
     $("#evidence").innerHTML = matches
         .map(
             (m, i) =>
-                `<article class="passage"><h3>${esc(m.source)} / ${esc(m.heading)}</h3><p>${esc(m.text)}</p><button data-read="${i}">Read passage</button><button data-source="${i}">Open source</button></article>`,
+                `<article class="passage"><h3>${esc(m.source)} / ${esc(m.heading)}</h3><p id="passage-${i}" class="passage-text">${esc(m.text)}</p><button data-read="${i}" aria-controls="passage-${i}" aria-expanded="false">Read passage</button><button data-source="${i}">Open source</button></article>`,
         )
         .join("") || '<p class="evidence-empty">No matching passage. Try a phrase from your notes or add a source.</p>';
     if (q && !history.includes(q)) {
@@ -184,6 +184,9 @@ $("#evidence").onclick = (e) => {
         source = e.target.closest("[data-source]");
     if (read) {
         stageToken++;
+        const expanded = read.getAttribute("aria-expanded") !== "true";
+        read.setAttribute("aria-expanded", String(expanded));
+        read.closest(".passage").dataset.expanded = String(expanded);
         setCue(matches[Number(read.dataset.read)].text, "source passage");
     }
     if (source)

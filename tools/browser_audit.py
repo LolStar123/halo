@@ -25,6 +25,12 @@ try:
         assert 'ms local' in page.locator('#latency').inner_text().lower()
         page.wait_for_function("window.__halo.stage === 'clever answer'")
         assert page.locator('#latency').inner_text().strip().lower() == '/ 1.10s staged'
+        assert page.locator('.passage-text').first.is_hidden()
+        page.locator('[data-read]').first.click()
+        assert page.locator('.passage-text').first.is_visible()
+        assert page.locator('[data-read]').first.get_attribute('aria-expanded')=='true'
+        page.locator('[data-read]').first.click()
+        assert page.locator('.passage-text').first.is_hidden()
         page.locator('[data-prompt]').nth(0).click()
         page.locator('[data-prompt]').nth(1).click()
         page.locator('[data-prompt]').nth(2).click()
@@ -101,6 +107,10 @@ try:
         page.screenshot(path=str(ROOT/'output'/'playwright'/'mobile.png'),full_page=True)
         assert page.evaluate('document.documentElement.scrollWidth<=innerWidth+1'),'mobile overflow'
         assert page.locator('#sentence').is_visible()
+        assert page.locator('.passage-text').first.is_hidden()
+        page.locator('[data-read]').first.click()
+        assert page.locator('.passage-text').first.is_visible()
+        page.locator('[data-read]').first.click()
         assert page.evaluate("getComputedStyle(document.querySelector('#copy-answer')).transitionDuration")=='0s'
         failed=browser.new_page()
         failed.route('**/data/meetings.json',lambda route:route.fulfill(status=503,body='unavailable'))

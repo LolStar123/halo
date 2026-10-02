@@ -270,7 +270,12 @@ label input,label textarea {
     gap:16px;
     justify-content:space-between;
     align-items:center;
-    margin-bottom:30px
+    margin-bottom:8px
+}
+.local-boundary {
+    margin:0 0 24px;
+    color:var(--muted);
+    font-size:11px;
 }
 .workspace-heading .eyebrow {
     margin-bottom:9px
@@ -529,7 +534,13 @@ h1 {
     font-weight:500;
     letter-spacing:-.5px;
     line-height:1.35;
-    margin:0 0 10px
+    margin:0 0 24px
+}
+.passage-text {
+    display:none;
+}
+.passage[data-expanded=true] .passage-text {
+    display:block;
 }
 .source-heading>p:last-child {
     font-size:12px;
@@ -735,7 +746,7 @@ dialog pre {
         padding:26px 17px
     }
     .workspace-heading {
-        margin-bottom:24px
+        margin-bottom:8px
     }
     h1 {
         font-size:25px
